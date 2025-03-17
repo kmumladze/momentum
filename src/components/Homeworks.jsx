@@ -71,45 +71,51 @@ export default function Homeworks() {
   return (
     <>
       <Navbar />
-      <section>
+      <section className="flex flex-col gap-4 px-32">
         <h1 className="text-[#212529] text-[34px] font-bold">
           დავალებების გვერდი
         </h1>
         {/*TODO: autocomplete */}
 
-        <div className="flex gap-4">
+        <div className="grid grid-cols-4 gap-8">
           {statuses.map((status, index) => (
-            <div key={status.id}>
-              <div className={`bg-[${colors[index]}]`}>{status.name}</div>
+            <div
+              className="rounded-[10px] py-[10px] px-[15px] text-white text-center"
+              key={status.id}
+              style={{ backgroundColor: colors[index % colors.length] }}
+            >
+              {status.name}
             </div>
           ))}
         </div>
 
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-4 gap-8">
           {tasks.map((task) => (
             <Link to="/taskdetail">
               <div
                 key={task.id}
-                className="flex flex-col border border-[#FB5607] rounded-[15px] p-[20px] gap-[28px] w-[381px] cursor-pointer"
+                className="flex flex-col border border-[#FB5607] rounded-[15px] p-[20px] gap-[28px] cursor-pointer w-full"
               >
                 <div className="flex gap-2 items-center justify-between">
-                  <p
-                    className={`flex items-center gap-[4px] border-2 p-[4px] rounded-[4px] ${
-                      task.priority.name === "დაბალი"
-                        ? "text-[#08A508] border-[#08A508]"
-                        : task.priority.name === "საშუალო"
-                        ? "text-[#FFBE0B] border-[#FFBE0B]"
-                        : task.priority.name === "მაღალი"
-                        ? "text-[#FA4D4D] border-[#FA4D4D]"
-                        : "text-gray-600 border-gray-600"
-                    }`}
-                  >
-                    {PRIORITY_ICON_MAP[task.priority.name]}
-                    {task.priority.name}
-                  </p>
-                  <p className="max-w-[100px] whitespace-nowrap text-ellipsis overflow-hidden bg-[#FF66A8] text-white py-[5px] px-[9px] rounded-[15px] text-[12px]">
-                    {task.department.name}
-                  </p>
+                  <div className="flex items-center gap-2">
+                    <p
+                      className={`flex items-center gap-[4px] border-2 p-[4px] rounded-[4px] ${
+                        task.priority.name === "დაბალი"
+                          ? "text-[#08A508] border-[#08A508]"
+                          : task.priority.name === "საშუალო"
+                          ? "text-[#FFBE0B] border-[#FFBE0B]"
+                          : task.priority.name === "მაღალი"
+                          ? "text-[#FA4D4D] border-[#FA4D4D]"
+                          : "text-gray-600 border-gray-600"
+                      }`}
+                    >
+                      {PRIORITY_ICON_MAP[task.priority.name]}
+                      {task.priority.name}
+                    </p>
+                    <p className="max-w-[100px] whitespace-nowrap text-ellipsis overflow-hidden bg-[#FF66A8] text-white py-[5px] px-[9px] rounded-[15px] text-[12px]">
+                      {task.department.name}
+                    </p>
+                  </div>
                   <p className="text-[12px] w-[76px]">
                     {formatDate(task.due_date)}
                   </p>
