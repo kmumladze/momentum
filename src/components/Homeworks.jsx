@@ -4,9 +4,22 @@ import { useEffect, useState } from "react";
 import Medium from "../assets/medium.jsx";
 import Low from "../assets/low.jsx";
 import High from "../assets/high.jsx";
+import ComentsIcon from "../assets/ComentsIcon.jsx";
+import { Link } from "react-router";
 
 const TOKEN = import.meta.env.VITE_API_TOKEN;
 const colors = ["#F7BC30", "#FB5607", "#FF006E", "#3A86FF"];
+
+const PRIORITY_ICON_MAP = {
+  დაბალი: <Low />,
+  მაღალი: <High />,
+  საშუალო: <Medium />,
+};
+
+function formatDate(dateString) {
+  const options = { day: "2-digit", month: "short", year: "numeric" };
+  return new Date(dateString).toLocaleDateString("ka-GE", options);
+}
 
 export default function Homeworks() {
   const [statuses, setStatuses] = useState([]);
@@ -74,29 +87,56 @@ export default function Homeworks() {
 
         <div className="grid grid-cols-3 gap-4">
           {tasks.map((task) => (
-            <div
-              key={task.id}
-              className="flex flex-col border border-[#FB5607] rounded-[15px] p-[20px] gap-[28px] w-[381px] cursor-pointer"
-            >
-              <div className="flex justify-between">
-                <p>{task.priority.name}</p>
-                <p>{task.due_date}</p>
-              </div>
+            <Link to="/taskdetail">
+              <div
+                key={task.id}
+                className="flex flex-col border border-[#FB5607] rounded-[15px] p-[20px] gap-[28px] w-[381px] cursor-pointer"
+              >
+                <div className="flex gap-2 items-center justify-between">
+                  <p
+                    className={`flex items-center gap-[4px] border-2 p-[4px] rounded-[4px] ${
+                      task.priority.name === "დაბალი"
+                        ? "text-[#08A508] border-[#08A508]"
+                        : task.priority.name === "საშუალო"
+                        ? "text-[#FFBE0B] border-[#FFBE0B]"
+                        : task.priority.name === "მაღალი"
+                        ? "text-[#FA4D4D] border-[#FA4D4D]"
+                        : "text-gray-600 border-gray-600"
+                    }`}
+                  >
+                    {PRIORITY_ICON_MAP[task.priority.name]}
+                    {task.priority.name}
+                  </p>
+                  <p className="max-w-[100px] whitespace-nowrap text-ellipsis overflow-hidden bg-[#FF66A8] text-white py-[5px] px-[9px] rounded-[15px] text-[12px]">
+                    {task.department.name}
+                  </p>
+                  <p className="text-[12px] w-[76px]">
+                    {formatDate(task.due_date)}
+                  </p>
+                </div>
 
-              <div className="flex flex-col gap-[12px] text-center">
-                <p>{task.name}</p>
-                <p>{task.description}</p>
-              </div>
+                <div className="flex flex-col gap-[12px]">
+                  <p className="text-[#212529] text-[15px] font-bold">
+                    {task.name}
+                  </p>
+                  <p className="text-[#343A40] text-[14px] font-normal">
+                    {task.description}
+                  </p>
+                </div>
 
-              <div className="flex justify-between">
-                <img
-                  className="w-[31px] h-[31px] rounded-full"
-                  src={task.employee.avatar}
-                  alt=""
-                />
-                <p>{task.total_comments}</p>
+                <div className="flex justify-between">
+                  <img
+                    className="w-[31px] h-[31px] rounded-full"
+                    src={task.employee.avatar}
+                    alt=""
+                  />
+                  <p className="flex items-center gap-2">
+                    <ComentsIcon />
+                    {task.total_comments}
+                  </p>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
