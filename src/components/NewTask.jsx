@@ -3,8 +3,17 @@ import Navbar from "./Navbar";
 
 import { Autocomplete, AutocompleteItem } from "@heroui/react";
 import { DatePicker } from "@heroui/react";
+import Low from "../assets/low";
+import High from "../assets/high";
+import Medium from "../assets/medium";
 
 const TOKEN = import.meta.env.VITE_API_TOKEN;
+
+const PRIORITY_ICON_MAP = {
+  დაბალი: <Low />,
+  მაღალი: <High />,
+  საშუალო: <Medium />,
+};
 
 export default function NewTask() {
   const [priorities, setPriorities] = useState([]);
@@ -112,25 +121,21 @@ export default function NewTask() {
   return (
     <>
       <Navbar />
-      <main>
-        <div>
-          <h1 className="text-[#212529] font-bold text-[34px]">
-            შექმენი ახალი დავალება
-          </h1>
-          <form
-            onSubmit={CreateTask}
-            action=""
-            className="flex flex-col gap-[50px]"
-          >
+      <main className="flex flex-col py-10 items-center gap-8">
+        <h1 className="text-[#212529] font-bold text-[34px]">
+          შექმენი ახალი დავალება
+        </h1>
+        <div className="bg-[#f3f1fb] w-[1684px] h-[958px] rounded-[4px] p-16">
+          <form onSubmit={CreateTask} action="" className="flex flex-col gap-6">
             <div className="flex justify-around">
               <div className="flex flex-col gap-[55px]">
                 <div className="flex flex-col">
-                  <label htmlFor="" className="text-[#343A40]">
+                  <label htmlFor="" className="text-[#343A40] text-[16px]">
                     სათაური*
                   </label>
                   <input
                     type="text"
-                    className="border border-[#DEE2E6]"
+                    className="border border-[#DEE2E6] rounded-[5px] p-[14px] w-[550px]"
                     required
                   />
                   <p className="text-[#6C757D] text-[10px]">
@@ -145,7 +150,7 @@ export default function NewTask() {
                   <label className="text=[#343A40] text-[16px]">აღწერა</label>
                   <input
                     type="text"
-                    className="border border-[#DEE2E6] rounded-[5px] p-[14px]"
+                    className="border border-[#DEE2E6] rounded-[5px] p-[14px] w-[550px] h-[133px]"
                     required
                   />
                   <p className="text-[#6C757D] text-[10px]">
@@ -161,7 +166,7 @@ export default function NewTask() {
                     <p className="text-[#343A40] text-[16px]">პრიორიტეტი*</p>
                     <Autocomplete
                       allowsCustomValue
-                      className="max-w-xs"
+                      className="max-w-xs bg-white rounded-xl"
                       defaultItems={priorities}
                       defaultSelectedKey={2}
                       label={
@@ -171,17 +176,17 @@ export default function NewTask() {
                     >
                       {(item) => (
                         <AutocompleteItem key={item.id}>
+                          {/* {PRIORITY_ICON_MAP[item.name]} */}
                           {item.name}
                         </AutocompleteItem>
                       )}
                     </Autocomplete>
                   </div>
-
                   <div className="flex flex-col">
                     <p className="text-[#343A40] text-[16px]">სტატუსი*</p>
                     <Autocomplete
                       allowsCustomValue
-                      className="max-w-xs"
+                      className="max-w-xs bg-white rounded-xl"
                       defaultItems={statuses}
                       defaultSelectedKey={2}
                       label={
@@ -206,7 +211,7 @@ export default function NewTask() {
                   </label>
                   <Autocomplete
                     allowsCustomValue
-                    className="max-w-xs"
+                    className="bg-white rounded-xl w-[550px] h-[45px]"
                     defaultItems={departments}
                     defaultSelectedKey={2}
                     label={
@@ -228,12 +233,15 @@ export default function NewTask() {
                   <label htmlFor="" className="text-[#ADB5BD] text-[16px]">
                     პასუხისმგებელი თანამშრომელი
                   </label>
-                  <input type="text" className="border rounded-[5px]" />
+                  <input
+                    type="text"
+                    className="border rounded-[5px] w-[550px] h-[45px] p-[14px]"
+                  />
                 </div>
 
                 <div className="flex flex-col">
                   <p className="text-[#343A40] text-[16px]">დედლაინი</p>
-                  <div className="w-full max-w-xl flex flex-row gap-4">
+                  <div className="w-full flex flex-row gap-4 max-w-sm bg-white text-[#ADB5BD] rounded-xl">
                     <DatePicker
                       showMonthAndYearPickers
                       //   label="Birth Date"
@@ -245,7 +253,7 @@ export default function NewTask() {
             </div>
 
             <button
-              className="text-white text-[18px] bg-[#8338EC] py-[10px] px-[20px] rounded-[5px] w-[208px]"
+              className="text-white text-[18px] bg-[#8338EC] py-[10px] px-[20px] rounded-[5px] w-[208px] mx-[100px]"
               type="submit"
             >
               დავალების შექმნა
