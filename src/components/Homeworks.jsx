@@ -91,7 +91,7 @@ export default function Homeworks() {
 
         <div className="grid grid-cols-4 gap-8">
           {tasks.map((task) => (
-            <Link to="/taskdetail">
+            <Link to={`/taskdetail/${task.id}`}>
               <div
                 key={task.id}
                 className="flex flex-col border border-[#FB5607] rounded-[15px] p-[20px] gap-[28px] cursor-pointer w-full"
